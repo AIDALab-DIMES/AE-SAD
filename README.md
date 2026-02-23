@@ -1,6 +1,5 @@
 # Tensorflow implementation of AE-SAD
 This repository provides a Tensorflow implementation of the AE-SAD method for (semi-)supervised anomaly detection.
-
 For more details, refer to:
 
 
@@ -22,11 +21,12 @@ author = {Fabrizio Angiulli and Fabio Fassetti and Luca Ferragina}
 ```
 If you would like to get in touch, you can write at luca.ferragina@unical.it
 ## Abstract
-Reconstruction error-based neural architectures represent a classical deep learning approach to anomaly detection which has shown great performances.
-It consists in training an AutoEncoder to reconstruct a set of examples deemed to represent the normality and then to point out as anomalies those data that show a sufficiently large reconstruction error. Unfortunately, after training these architectures often become able to well reconstruct also the anomalies in the data.    
-This phenomenon is much more evident when there are anomalies in the training set. In particular when these anomalies are labeled, a setting often called semi-supervised, the best way to train an AutoEncoder is to ignore the anomalies and minimize the reconstruction error only on normal data.
-The goal of this work is to investigate approaches to allow reconstruction error-based architectures to instruct the model to put known anomalies outside of the domain description of the normal data. Specifically, our strategy exploits a limited number of anomalous examples to increase the contrast between the reconstruction error associated with normal examples and those associated with both known and unknown anomalies, thus enhancing anomaly detection performances.
-The experiments show that this new procedure achieves better performances than the standard autoencoder approach and the main deep learning techniques for both unsupervised and semi-supervised anomaly detection. Moreover it shows better generalization on anomalies generated with a distribution different from the one of the anomalies in the training set and robustness to normal data pollution.
+Reconstruction error-based neural architectures constitute a classical deep learning approach to anomaly detection which has shown great performances. It consists in training an Autoencoder to reconstruct a set of examples deemed to represent the normality and then to point out as anomalies those data that show a sufficiently large reconstruction error. Unfortunately, these architectures often become able to well reconstruct also the anomalies in the data. This phenomenon is more evident when there are anomalies in the training set. In particular, when these anomalies are labeled, a setting called semi-supervised, the best way to train Autoencoders is to ignore anomalies and minimize the reconstruction error on normal data.
+When a sufficiently large and representative set of anomalous examples is available, the problem essentially shifts toward a classification task, where standard supervised strategies can be applied effectively. In this work, instead, we focus on the more challenging scenario in which only a limited number of anomalous examples is available, and these examples are not sufficiently representative of the wide variability that anomalies may exhibit.
+
+We propose AE-SAD, a novel reconstruction error-based architecture that explicitly leverages labeled anomalies to guide the model. Our method introduces a new loss formulation that forces anomalies to be reconstructed according to a transformation function, effectively pushing them outside the description of normal data. This strategy increases the separation between the reconstruction errors of normal and anomalous samples, thereby improving the detection of both seen and unseen anomalies.
+
+Extensive experiments demonstrate that AE-SAD consistently outperforms both standard Autoencoders and the most competitive deep learning techniques for semi-supervised anomaly detection, achieving state-of-the-art results. In particular, our method proves superior across a diverse set of benchmarks, including vectorial data, high-dimensional datasets, and image domains. Moreover, AE-SAD maintains its advantage even in challenging scenarios where the training data are polluted by anomalies that are incorrectly labeled as normal, further highlighting its robustness and practical applicability.
 
 ## Method
 Let $X=\left\\{\mathbf{x}_1,\dots,\mathbf{x}_n\right\\}$ be the training set and for each $i \in [1\dots n]$, let $y_i\in\\{0,1\\}$ be the label of $\mathbf{x}_i$, with $y_i=0$ if $\mathbf{x}_i$ belongs to the normal class and $y_i=1$ if $\mathbf{x}$ is anomalous; w.l.o.g. we assume that $X \subseteq [0,1]^d$ which is always possible to obtain by normalizing the data.
