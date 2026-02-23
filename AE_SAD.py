@@ -5,7 +5,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import copy
 import AE_architectures
 
-def launch(x_training,y_training,x_test,AE_type=None,latent_dim=32,Lambda=None,EP=1000,batch_size=32,intermediate_dim=128):
+def launch(x_training,y_training,x_test,AE_type=None,latent_dim=32,alpha=1,EP=1000,batch_size=32,intermediate_dim=128):
     dim = x_training[0].shape
     flat_dim = x_training[0].flatten().shape[0]
 
@@ -20,10 +20,13 @@ def launch(x_training,y_training,x_test,AE_type=None,latent_dim=32,Lambda=None,E
         autoencoder = AE_architectures.PCA_Autoencoder(dim,flat_dim,latent_dim)
 
     autoencoder.compile(optimizer='adam', loss=losses.MeanSquaredError())
-    if Lambda is None:
-        Lambda = x_training.shape[0]/np.sum(y_training)
+
+    n = x_training.shape[0]
+    s = np.sum(y_training)
+    rho = s/(n - s)
+
     weights = np.ones(y_training.shape[0])
-    weights[np.where(y_training == 1)] = Lambda
+    weights[np.where(y_training == 1)] = alpha/rho
     x_target = copy.copy(x_training)
     x_target[np.where(y_training == 1)] = 1 - x_target[np.where(y_training == 1)]
     autoencoder.fit(x_training, x_target,
