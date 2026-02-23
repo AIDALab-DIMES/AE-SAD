@@ -31,8 +31,13 @@ Extensive experiments demonstrate that AE-SAD consistently outperforms both stan
 ## Method
 Let $X=\left\\{\mathbf{x}_1,\dots,\mathbf{x}_n\right\\}$ be the training set and for each $i \in [1\dots n]$, let $y_i\in\\{0,1\\}$ be the label of $\mathbf{x}_i$, with $y_i=0$ if $\mathbf{x}_i$ belongs to the normal class and $y_i=1$ if $\mathbf{x}$ is anomalous; w.l.o.g. we assume that $X \subseteq [0,1]^d$ which is always possible to obtain by normalizing the data.
 The idea of the method is to train an Autoencoder with the loss
-$$\mathcal{L}_F(\mathbf{x})=\left(1-y\right)\cdot\left|\left|\mathbf{x}-\hat{\mathbf{x}}\right|\right|^2+\lambda\cdot y\cdot\left|\left|F\left(\mathbf{x}\right)-\hat{\mathbf{x}}\right|\right|^2$$
-where $F:[0,1]^d\rightarrow[0,1]^d$, and $\lambda$ is an hyperparameter that controls the weight of the anomalies, in relation to the normal items, during the training.
+
+$$\mathcal{L}_F(\mathbf{x})=\left(1-y\right)\cdot\left|\left|\mathbf{x}-\hat{\mathbf{x}}\right|\right|^2+ y\cdot\frac{\alpha}{\varrho}\cdot\left|\left|F\left(\mathbf{x}\right)-\hat{\mathbf{x}}\right|\right|^2$$
+
+where
+* $F:[0,1]^d\rightarrow[0,1]^d$ is a transformation function;,
+* $\varrho=s/(n-s)$ is a characteristic parameter of the training set called *anomaly ratio*, defined as the fraction of the number $s$ of anomalies over the number $n-s$ of normal items in the training set;
+* $\alpha$ is a hyperparameter that controls the weight of the anomalies, in relation to the normal items, during the training.
 
 When $\mathbf{x}$ is a normal item the contribution it brings to the loss is $\left|\left|\mathbf{x}-\hat{\mathbf{x}}\right|\right|^2$ which means that the reconstruction $\hat{\mathbf{x}}$ is forced to be similar to $\mathbf{x}$ as in the standard approach. Conversely, if $\mathbf{x}$ is an anomaly, the contribution brought to the loss is $\left|\left|F\left(\mathbf{x}\right)-\hat{\mathbf{x}}\right|\right|^2$ which means that in this case $\hat{\mathbf{x}}$ is forced to be similar to $F(\mathbf{x})$. 
 Hence, the idea is that, during the training process, normal data $\mathbf{x}$ are likely to be mapped to $\mathbf{\hat{x}}$ which is as similar as possible to $\mathbf{x}$ and anomalous data $\mathbf{x}$ are likely to be mapped to $F(\mathbf{x})$ which is substantially different from $\mathbf{x}$.
