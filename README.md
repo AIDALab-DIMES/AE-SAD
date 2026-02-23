@@ -35,7 +35,7 @@ The idea of the method is to train an Autoencoder with the loss
 $$\mathcal{L}_F(\mathbf{x})=\left(1-y\right)\cdot\left|\left|\mathbf{x}-\hat{\mathbf{x}}\right|\right|^2+ y\cdot\frac{\alpha}{\varrho}\cdot\left|\left|F\left(\mathbf{x}\right)-\hat{\mathbf{x}}\right|\right|^2$$
 
 where
-* $F:[0,1]^d\rightarrow[0,1]^d$ is a transformation function;,
+* $F:[0,1]^d\rightarrow[0,1]^d$ is a transformation function;
 * $\varrho=s/(n-s)$ is a characteristic parameter of the training set called *anomaly ratio*, defined as the fraction of the number $s$ of anomalies over the number $n-s$ of normal items in the training set;
 * $\alpha$ is a hyperparameter that controls the weight of the anomalies, in relation to the normal items, during the training.
 
