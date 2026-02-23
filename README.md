@@ -1,10 +1,12 @@
 # Tensorflow implementation of AE-SAD
 This repository provides a Tensorflow implementation of the AE-SAD method for (semi-)supervised anomaly detection.
 
-## Citation and Contact
-If you use this code for your work, please cite the paper:
+For more details, refer to:
+
+
 [*Reconstruction Error-based Anomaly Detection with Few Outlying Examples*.](https://www.sciencedirect.com/science/article/pii/S0925231226003991) Fabrizio Angiulli, Fabio Fassetti, Luca Ferragina. *Neurocomputing* (2026).
-BibTex:
+## Citation and Contact
+If you use this code for your work, please cite the paper as:
 ```
 @article{aesad,
 title = {Reconstruction error-based anomaly detection with few outlying examples},
