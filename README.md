@@ -48,7 +48,7 @@ The code is composed by two main files:
 - AE_architectures.py, that contains all the different types of Autoencoders implemented.
 - AE_SAD.py, that contains the function that is used to launch the training of our method and that outputs the score computed on a training set. The function and its parameters are
   ```
-  launch(x_training,y_training,x_test,AE_type=None,latent_dim=32,Lambda=None,EP=1000,batch_size=32,intermediate_dim=128)
+  launch(x_training,y_training,x_test,AE_type=None,latent_dim=32,aplha=1,EP=1000,batch_size=32,intermediate_dim=128)
   ```
   - ```x_training``` is the training set $X$. It is crucial that $X\subseteq[0,1]^d$, so make sure to appropriately scale your training set before passing it to the function.
   - ```y_training``` corresponds to the label of the training set $y$. It is a boolean vector, $1$ stands for anomaly and $0$ for normal.
@@ -58,7 +58,7 @@ The code is composed by two main files:
     - ```'deep'``` to select a deep dense autoencoder with an input layer, an intermediate layer of dimension ```intermediate_dim```, a latent space of dimension ```latent_dim```, another intermediate layer of dimension ```intermediate_dim``` and an output layer;
     - ```'conv'``` to select a convolutional autoencoder with an input layer, two convolutional encoding layers and two deconvolutional decoding layers;
     - ```'pca'``` to select a PCA-like autoencoder in which all the activation functions are linear, with an input layer, a latent space of dimension ```latent_dim``` and an output layer.
-  - ```Lambda``` is the parameter $\lambda$, if ```None``` it is set equal to the size of the training set divided by the number of anomalies in it as adviced in the paper.
+  - ```alpha``` is the parameter $\alpha$; its default value is $\alpha=1$, each single anomalous example weights as $1/\varrho$ inliers and, thus, globally inliers and outliers contribute half of the total loss in terms of weights. On the other hand, for $\alpha>1$, outliers weigh globally more than inliers, and for $\alpha<1$, outliers weigh less.
   - ```EP``` and ```batch_size``` are the epochs and the size of the bathes used in the training.
 
 ### Note
