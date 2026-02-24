@@ -61,14 +61,8 @@ The code is composed by two main files:
   - ```alpha``` is the parameter $\alpha$; its default value is $\alpha=1$, each single anomalous example weights as $1/\varrho$ inliers and, thus, globally inliers and outliers contribute half of the total loss in terms of weights. On the other hand, for $\alpha>1$, outliers weigh globally more than inliers, and for $\alpha<1$, outliers weigh less.
   - ```EP``` and ```batch_size``` are the epochs and the size of the bathes used in the training.
 
-### Note
-I hope you will find the code easy to use and understand. I tried to keep it as simple as possible, the only thig about it that may results a bit tricky is that the novel loss is not actually implemented, but it is simulated in the function ```launch``` with the following three operations.
-- The training set ```x_training``` is duplicated and in its copy ```x_target``` is applied the function $F$ to each anomaly. As suggested by the name, ```x_target``` represents the target of the Autoencoder reconstructions.
-- The Autoencoder is compiled with the standard ```MeanSquaredError``` loss and is trained with the usual ```fit```, except for the fact that the fitting is called as ```autoencoder.fit(x_training, x_target)```, which means that we want to minimize the error between the training set and the target set.
-- As for the parameter ```Lambda```, we build a vector (called ```weights```), that have $1$ in a component that corresponds to a normal item and $\lambda$ in a component that corresponds to an anomaly. This vector is passed in the fitting function as ```sample_weight=weights```.
-In this way the weight of each anomaly, whose reconstruction target is $F(\mathbf{x})$, is $\lambda$ and the weight of each normal item (whose reconstruction target is just $\mathbf{x}$) is $1$, just like expected.
-
-Currently I have only implemented the function $F(\mathbf{x})=\mathbf{1}-\mathbf{x}$. I will expand this code in order to enable the definition of any function by the user.
+### PyOD-style Version
+The directory ```pyOD_Version``` contains the Pytorch version of AE-SAD written in the style of the [PyOD](https://pyod.readthedocs.io/en/latest/index.html) library.
 
 
 
